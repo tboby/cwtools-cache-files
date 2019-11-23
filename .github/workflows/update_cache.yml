@@ -10,8 +10,7 @@ jobs:
     steps:
     - name: Get event payload
       run: |
-        sudo apt install jq
-        event_name=cat $GITHUB_EVENT_PATH | jq -r '.action'
+        event_name=sudo cat $GITHUB_EVENT_PATH | jq -r '.action'
         GAME=""
         case $event_name in
           "build-cache-hoi4") GAME="hoi4" ;;
