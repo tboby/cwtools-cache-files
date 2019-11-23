@@ -48,7 +48,7 @@ jobs:
         git clone --single-branch --branch $GAME --depth=1 https://cwtools-bot:$GITHUB_TOKEN@github.com/tboby/cwtools-game-data.git cwtools-game-data
     - name: Install CWTools
       run: |
-        dotnet tool install --global CWTools.CLI
+        dotnet tool install --global -v m CWTools.CLI
     - name: Generate cache
       run: |
         cd $GITHUB_WORKSPACE/../cwtools-game-data
