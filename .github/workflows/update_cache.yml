@@ -6,11 +6,10 @@ jobs:
   build_cache:
     runs-on: ubuntu-latest
     env:
-      PAYLOAD: ${{ github.event	}}
       GITHUB_TOKEN: ${{ secrets.CWTOOLSBOT_TOKEN }}
       GAME: hoi4
     steps:
-    - run: echo $PAYLOAD
+    - run: echo $GITHUB_EVENT_PATH
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1.0.0
       with:
