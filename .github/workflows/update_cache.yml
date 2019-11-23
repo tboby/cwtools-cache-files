@@ -52,7 +52,7 @@ jobs:
     - name: Generate cache
       run: |
         cd $GITHUB_WORKSPACE/../cwtools-game-data
-        if [ $GAME == "stellaris" ]; then
+        if [ $GAME = "stellaris" ]; then
           $HOME/.dotnet/tools/cwtools --game stl --directory . --rulespath $GITHUB_WORKSPACE/../cwtools-$GAME-config serialize metadata
           mv -v -f stl.cwv.bz2 $GITHUB_WORKSPACE
         else
