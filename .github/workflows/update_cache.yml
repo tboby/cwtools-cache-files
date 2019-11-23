@@ -24,7 +24,7 @@ jobs:
         version: '3.0.100'
     - uses: actions/checkout@v1
       with:
-        ref: $GAME
+        ref: hoi4
         fetch-depth: 1
     - name: Set git config
       run: |
