@@ -1,0 +1,57 @@
+name: Build and push hoi4 cache
+
+on: repository_dispatch
+
+jobs:
+  build_cache:
+    runs-on: ubuntu-latest
+    env:
+      PAYLOAD: ${{ github.event	}}
+      GITHUB_TOKEN: ${{ secrets.CWTOOLSBOT_TOKEN }}
+      GAME: hoi4
+    steps:
+      run: echo $PAYLOAD
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v1.0.0
+      with:
+        version: '3.0.100'
+    - uses: actions/checkout@v1
+      with:
+        ref: hoi4
+        fetch-depth: 1
+    - name: Set git config
+      run: |
+        git config --local user.email "cwtoolsbot@protonmail.com"
+        git config --local user.name "cwtools-bot"
+    - name: Clone game rules
+      run: |
+        cd $GITHUB_WORKSPACE/..
+        git clone --depth=1 https://github.com/cwtools/cwtools-$GAME-config.git cwtools-$GAME-config
+        cd cwtools-$GAME-config
+        git fetch
+        git pull
+    - name: Clone game files
+      run: |
+        cd $GITHUB_WORKSPACE/..
+        git clone --single-branch --branch $GAME --depth=1 ttps://cwtools-bot:$GITHUB_TOKEN@github.com/cwtools/cwtools-game-data.git cwtools-game-data
+    - name: Install CWTools
+      run: |
+        dotnet tool install --global CWTools.CLI
+    - name: Generate cache
+      run: |
+        cd $GITHUB_WORKSPACE/../cwtools-game-data
+        if [ $GAME == "stellaris" ]; then
+          $HOME/.dotnet/tools/cwtools --game stl --directory . --rulespath $GITHUB_WORKSPACE/../cwtools-$GAME-config serialize metadata
+          mv -v -f stl.cwv.bz2 $GITHUB_WORKSPACE
+        else
+          $HOME/.dotnet/tools/cwtools --game $GAME --directory . --rulespath $GITHUB_WORKSPACE/../cwtools-$GAME-config serialize metadata
+          mv -v -f $GAME.cwv.bz2 $GITHUB_WORKSPACE
+        fi
+    - name: Commit and push updated cache
+      run: |
+        cd $GITHUB_WORKSPACE
+        git add .
+        git commit -m "Update cache file" -a
+        git fetch
+        git pull
+        git push https://cwtools-bot:$GITHUB_TOKEN@github.com/cwtools/cwtools-cache-files.git --all --follow-tags
