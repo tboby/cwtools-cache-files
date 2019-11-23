@@ -15,6 +15,10 @@ jobs:
         case $event_name in
           "build-cache-hoi4") game_temp="hoi4" ;;
           "build-cache-stellaris") game_temp="stellaris" ;;
+          "build-cache-eu4") game_temp="eu4" ;;
+          "build-cache-ck2") game_temp="ck2" ;;
+          "build-cache-vic2") game_temp="vic2" ;;
+          "build-cache-ir") game_temp="ir" ;;
           *) exit 1 # terminate and indicate error
         esac
         echo "::set-env name=GAME::$game_temp"
