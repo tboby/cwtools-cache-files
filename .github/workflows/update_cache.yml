@@ -27,6 +27,7 @@ jobs:
         ref: ${{ GAME }}
         fetch-depth: 1
     - name: Set git config
+      run: |
         git config --local user.email "cwtoolsbot@protonmail.com"
         git config --local user.name "cwtools-bot"
     - name: Clone game rules
