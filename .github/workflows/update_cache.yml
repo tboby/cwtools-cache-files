@@ -9,9 +9,9 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.CWTOOLSBOT_TOKEN }}
     steps:
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v1.0.0
+    - uses: actions/setup-dotnet@v1
       with:
-        version: '3.0.100'
+        dotnet-version: '3.1.100'
     - name: Get event payload
       run: |
         event_name=$(sudo cat $GITHUB_EVENT_PATH | jq -r '.action')
