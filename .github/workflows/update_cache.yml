@@ -24,6 +24,7 @@ jobs:
           "build-cache-ck2") game_temp="ck2" ;;
           "build-cache-vic2") game_temp="vic2" ;;
           "build-cache-ir") game_temp="ir" ;;
+          "build-cache-ck3") game_temp="ck3" ;;
           *) exit 1 # terminate and indicate error
         esac
         echo "::set-env name=GAME::$game_temp"
