@@ -27,7 +27,7 @@ jobs:
           "build-cache-ck3") game_temp="ck3" ;;
           *) exit 1 # terminate and indicate error
         esac
-        echo "::set-env name=GAME::$game_temp"
+        echo "GAME=$game_temp" >> $GITHUB_ENV
     - uses: actions/checkout@v1
       with:
         ref: ${{ env.GAME }}
